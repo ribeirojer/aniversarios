@@ -1,5 +1,5 @@
-import { createMMKV } from 'react-native-mmkv';
-    
+import { createMMKV } from "react-native-mmkv";
+
 const mmkv = createMMKV();
 
 export const storage = {

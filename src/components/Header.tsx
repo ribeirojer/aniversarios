@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
 		fontSize: 28,
 		fontWeight: "bold",
 		color: "#fff",
-		fontFamily: "Montserrat_500Medium"	},
+		fontFamily: "Montserrat_500Medium",
+	},
 
 	subtitle: {
 		fontSize: 14,

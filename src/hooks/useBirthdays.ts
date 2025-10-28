@@ -1,80 +1,78 @@
 import { useEffect, useState } from "react";
 import {
-  addBirthday,
-  deleteBirthday,
-  getBirthdaysWithDetails,
-  updateBirthday,
+	addBirthday,
+	deleteBirthday,
+	getBirthdaysWithDetails,
+	updateBirthday,
 } from "../lib/birthdays";
 import type { BirthdayWithAge } from "../types/birthday";
+import { storage } from "../utils/storageAsync";
 
 export function useBirthdays() {
-  const [birthdays, setBirthdays] = useState<BirthdayWithAge[]>([]);
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [daysFilter, setDaysFilter] = useState<7 | 30>(7);
-  const [showOnboarding, setShowOnboarding] = useState(false);
-  const [view, setView] = useState<"calendar" | "monthly">("monthly");
+	const [birthdays, setBirthdays] = useState<BirthdayWithAge[]>([]);
+	const [editingId, setEditingId] = useState<string | null>(null);
+	const [daysFilter, setDaysFilter] = useState<7 | 30>(7);
+	const [showOnboarding, setShowOnboarding] = useState(false);
+	const [view, setView] = useState<"calendar" | "monthly">("monthly");
 
-  useEffect(() => {
-    loadBirthdays();
-    const onboardingCompleted = localStorage.getItem("onboarding_completed");
-    if (!onboardingCompleted) setShowOnboarding(true);
-  }, []);
+	useEffect(() => {
+		const loadData = async () => {
+			const birthdays = await getBirthdaysWithDetails();
+			setBirthdays(birthdays);
+			const onboardingCompleted = await storage.get("onboarding_completed");
+			if (!onboardingCompleted) setShowOnboarding(true);
+		};
 
-  const loadBirthdays = () => {
-    setBirthdays(getBirthdaysWithDetails());
-  };
+		loadData();
+	}, []);
 
-  const handleAdd = (data: Parameters<typeof addBirthday>[0]) => {
-    addBirthday(data);
-    loadBirthdays();
-    setShowForm(false);
-  };
+	const loadBirthdays = async () => {
+		setBirthdays(await getBirthdaysWithDetails());
+	};
 
-  const handleUpdate = (data: Parameters<typeof addBirthday>[0]) => {
-    if (editingId) {
-      updateBirthday(editingId, data);
-      loadBirthdays();
-      setEditingId(null);
-      setShowForm(false);
-    }
-  };
+	const handleAdd = (data: Parameters<typeof addBirthday>[0]) => {
+		addBirthday(data);
+		loadBirthdays();
+	};
 
-  const handleDelete = (id: string) => {
-    if (confirm("Tem certeza que deseja excluir este aniversário?")) {
-      deleteBirthday(id);
-      loadBirthdays();
-    }
-  };
+	const handleUpdate = (data: Parameters<typeof addBirthday>[0]) => {
+		if (editingId) {
+			updateBirthday(editingId, data);
+			loadBirthdays();
+			setEditingId(null);
+		}
+	};
 
-  const handleEdit = (id: string) => {
-    setEditingId(id);
-    setShowForm(true);
-  };
+	const handleDelete = (id: string) => {
+		if (confirm("Tem certeza que deseja excluir este aniversário?")) {
+			deleteBirthday(id);
+			loadBirthdays();
+		}
+	};
 
-  const editingBirthday = editingId
-    ? birthdays.find((b) => b.id === editingId)
-    : undefined;
+	const handleEdit = (id: string) => {
+		setEditingId(id);
+	};
 
-  const upcomingBirthdays = birthdays.filter(
-    (b) => b.daysUntil <= daysFilter
-  );
+	const editingBirthday = editingId
+		? birthdays.find((b) => b.id === editingId)
+		: undefined;
 
-  return {
-    birthdays,
-    view,
-    setView,
-    showForm,
-    setShowForm,
-    editingBirthday,
-    handleAdd,
-    handleUpdate,
-    handleDelete,
-    handleEdit,
-    daysFilter,
-    setDaysFilter,
-    upcomingBirthdays,
-    showOnboarding,
-    setShowOnboarding,
-  };
+	const upcomingBirthdays = birthdays.filter((b) => b.daysUntil <= daysFilter);
+
+	return {
+		birthdays,
+		view,
+		setView,
+		editingBirthday,
+		handleAdd,
+		handleUpdate,
+		handleDelete,
+		handleEdit,
+		daysFilter,
+		setDaysFilter,
+		upcomingBirthdays,
+		showOnboarding,
+		setShowOnboarding,
+	};
 }

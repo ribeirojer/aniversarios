@@ -1,6 +1,6 @@
-import { storage } from "@/src/utils/storage"; // ajuste o caminho conforme seu projeto
 import type React from "react";
 import { createContext, useEffect, useState } from "react";
+import { storage } from "@/src/utils/storageAsync";
 
 export type Birthday = {
 	id: string;
@@ -18,9 +18,9 @@ type BirthdaysContextType = {
 	setBirthdays: React.Dispatch<React.SetStateAction<Birthday[]>>;
 };
 
-export const BirthdaysContext = createContext<
-	BirthdaysContextType | undefined
->(undefined);
+export const BirthdaysContext = createContext<BirthdaysContextType | undefined>(
+	undefined,
+);
 
 export const BirthdaysProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
@@ -31,8 +31,10 @@ export const BirthdaysProvider: React.FC<{ children: React.ReactNode }> = ({
 	// 🔹 Carregar aniversários do AsyncStorage ao montar
 	useEffect(() => {
 		const loadBirthdays = async () => {
-			const saved = await storage.get<Birthday[]>(STORAGE_KEY, []);
-			setBirthdays(saved);
+			const saved = await storage.get<Birthday[]>(STORAGE_KEY);
+			if (saved) {
+				setBirthdays(saved);
+			}
 		};
 		loadBirthdays();
 	}, []);
