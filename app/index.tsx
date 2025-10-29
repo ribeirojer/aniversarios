@@ -8,8 +8,7 @@ import { useBirthdays } from "@/src/hooks/useBirthdays";
 
 export default function Index() {
 	const router = useRouter();
-	const { birthdays, view, setView, daysFilter, setDaysFilter } =
-		useBirthdays();
+	const { birthdays, view, setView } = useBirthdays();
 
 	const handleAddBirthday = () => {
 		router.push("/adicionar");
@@ -25,12 +24,7 @@ export default function Index() {
 
 	return (
 		<Layout>
-			<ViewSelector
-				view={view}
-				setView={setView}
-				daysFilter={daysFilter}
-				setDaysFilter={setDaysFilter}
-			/>
+			<ViewSelector view={view} setView={setView} />
 
 			{view === "monthly" ? (
 				<MonthlyCalendar birthdays={birthdays} />

@@ -1,5 +1,6 @@
 import { Bell } from "lucide-react-native";
 import { Switch, Text, View } from "react-native";
+import Card from "../Card";
 
 export default function NotificationsSection({
 	enabled,
@@ -9,7 +10,7 @@ export default function NotificationsSection({
 	onToggle: (val: boolean) => void;
 }) {
 	return (
-		<View style={{ marginBottom: 24 }}>
+		<Card>
 			<Text style={{ fontSize: 18, fontWeight: "600", marginBottom: 8 }}>
 				<Bell width={20} height={20} /> Notificações
 			</Text>
@@ -28,6 +29,6 @@ export default function NotificationsSection({
 				</View>
 				<Switch value={enabled} onValueChange={onToggle} />
 			</View>
-		</View>
+		</Card>
 	);
 }

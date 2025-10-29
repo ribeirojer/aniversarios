@@ -1,6 +1,12 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
-import { type GestureResponderEvent, ScrollView, View } from "react-native";
+import { useRef, useState } from "react";
+import {
+	type GestureResponderEvent,
+	ScrollView,
+	Text,
+	type TextInput,
+	View,
+} from "react-native";
 import Layout from "@/src/components/Layout";
 import { ReminderConfig } from "@/src/components/reminder-config";
 import { Button } from "@/src/components/ui/Button";
@@ -26,6 +32,10 @@ const Adicionar = () => {
 		notifyDaysBefore: "",
 	});
 
+	const nameRef = useRef<TextInput>(null);
+	const dateRef = useRef<TextInput>(null);
+	const yearRef = useRef<TextInput>(null);
+
 	const handleSubmit = (e: GestureResponderEvent) => {
 		e.preventDefault();
 
@@ -39,11 +49,13 @@ const Adicionar = () => {
 
 		if (!formData.name) {
 			setErrors((prev) => ({ ...prev, name: "Nome é obrigatório." }));
+			nameRef.current?.focus();
 			return;
 		}
 
 		if (!formData.date) {
 			setErrors((prev) => ({ ...prev, date: "Data é obrigatória." }));
+			dateRef.current?.focus();
 			return;
 		}
 
@@ -52,11 +64,13 @@ const Adicionar = () => {
 				...prev,
 				date: "Data deve estar no formato MM-DD.",
 			}));
+			dateRef.current?.focus();
 			return;
 		}
 
 		if (!formData.year) {
 			setErrors((prev) => ({ ...prev, year: "Ano é obrigatório." }));
+			yearRef.current?.focus();
 			return;
 		}
 
@@ -87,6 +101,7 @@ const Adicionar = () => {
 					onChangeText={(text) => setFormData({ ...formData, name: text })}
 					placeholder="Ex: Maria Silva"
 					errorMessage={errors.name}
+					ref={nameRef}
 				/>
 
 				<View
@@ -103,6 +118,7 @@ const Adicionar = () => {
 						placeholder="MM-DD"
 						style={{ flex: 1, marginRight: 8 }}
 						errorMessage={errors.date}
+						ref={dateRef}
 					/>
 					<TextInputField
 						label="Ano de nascimento"
@@ -112,6 +128,7 @@ const Adicionar = () => {
 						placeholder="1990"
 						style={{ flex: 1, marginLeft: 8 }}
 						errorMessage={errors.year}
+						ref={yearRef}
 					/>
 				</View>
 
@@ -129,6 +146,9 @@ const Adicionar = () => {
 						setFormData({ ...formData, notifyDaysBefore: reminders })
 					}
 				/>
+				{errors.notifyDaysBefore ? (
+					<Text style={{ color: "red" }}>{errors.notifyDaysBefore}</Text>
+				) : null}
 
 				<View
 					style={{

@@ -1,11 +1,10 @@
-import { ScrollView } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Layout from "@/src/components/Layout";
 import DangerZoneSection from "../src/components/settings/DangerZoneSection";
 import ExportSection from "../src/components/settings/ExportSection";
 import ImportSection from "../src/components/settings/ImportSection";
 import NotificationsSection from "../src/components/settings/NotificationsSection";
 import RegionSection from "../src/components/settings/RegionSection";
-import SettingsHeader from "../src/components/settings/SettingsHeader";
 import { useSettings } from "../src/hooks/useSettings";
 
 export default function SettingsPage() {
@@ -21,9 +20,9 @@ export default function SettingsPage() {
 
 	return (
 		<Layout>
-			<SettingsHeader />
+			<View style={{ flex: 1, paddingHorizontal: 16 }}>
+				<Text style={styles.title}>Configurações</Text>
 
-			<ScrollView contentContainerStyle={{ padding: 16 }}>
 				<NotificationsSection
 					enabled={notificationsEnabled}
 					onToggle={handleNotificationToggle}
@@ -35,7 +34,17 @@ export default function SettingsPage() {
 				/>
 				<ImportSection onImport={handleImport} />
 				<DangerZoneSection onClear={handleClearAll} />
-			</ScrollView>
+			</View>
 		</Layout>
 	);
 }
+
+const styles = StyleSheet.create({
+	title: {
+		fontSize: 24,
+		fontWeight: "bold",
+		marginVertical: 16,
+		textAlign: "center",
+		fontFamily: "Montserrat-Bold",
+	},
+});

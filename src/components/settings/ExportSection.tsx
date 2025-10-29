@@ -1,5 +1,6 @@
 import { Download } from "lucide-react-native";
 import { Text, View } from "react-native";
+import Card from "../Card";
 import { Button } from "../ui/Button";
 
 export default function ExportSection({
@@ -10,7 +11,7 @@ export default function ExportSection({
 	onExportCSV: () => void;
 }) {
 	return (
-		<View style={{ marginBottom: 24 }}>
+		<Card>
 			<Text style={{ fontSize: 18, fontWeight: "600", marginBottom: 8 }}>
 				<Download width={20} height={20} /> Exportar dados
 			</Text>
@@ -20,17 +21,19 @@ export default function ExportSection({
 			<View style={{ flexDirection: "row", gap: 8 }}>
 				<Button
 					onPress={onExportJSON}
-					style={{ flex: 1, backgroundColor: "#e9ecef" }}
+					style={{ flex: 1 }}
 					icon={<Download width={16} height={16} />}
+					variant="secondary"
 					title="Exportar JSON"
 				></Button>
 				<Button
 					onPress={onExportCSV}
-					style={{ flex: 1, backgroundColor: "#e9ecef" }}
+					style={{ flex: 1 }}
 					icon={<Download width={16} height={16} />}
+					variant="secondary"
 					title="Exportar CSV"
 				></Button>
 			</View>
-		</View>
+		</Card>
 	);
 }

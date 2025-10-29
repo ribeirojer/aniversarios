@@ -26,6 +26,7 @@ type Props = {
 	testID?: string;
 	onFocus?: () => void;
 	onBlur?: () => void;
+	ref?: React.Ref<TextInput>;
 };
 
 export default function TextInputField({
@@ -44,6 +45,7 @@ export default function TextInputField({
 	label,
 	onFocus,
 	onBlur,
+	ref,
 }: Props) {
 	const [isFocused, setIsFocused] = useState(false);
 
@@ -51,6 +53,7 @@ export default function TextInputField({
 		<View style={[style]}>
 			{label && <Text style={styles.label}>{label}</Text>}
 			<TextInput
+				ref={ref}
 				style={[
 					styles.input,
 					multiline && styles.multiline,

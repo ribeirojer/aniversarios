@@ -1,9 +1,10 @@
 import { Globe } from "lucide-react-native";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
+import Card from "../Card";
 
 export default function RegionSection({ timezone }: { timezone: string }) {
 	return (
-		<View style={{ marginBottom: 24 }}>
+		<Card>
 			<Text style={{ fontSize: 18, fontWeight: "600", marginBottom: 8 }}>
 				<Globe width={20} height={20} /> Região
 			</Text>
@@ -14,6 +15,6 @@ export default function RegionSection({ timezone }: { timezone: string }) {
 			<Text style={{ fontSize: 14, fontWeight: "500", marginTop: 8 }}>
 				{timezone}
 			</Text>
-		</View>
+		</Card>
 	);
 }

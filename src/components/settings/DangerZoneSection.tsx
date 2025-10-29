@@ -1,5 +1,6 @@
 import { Trash2 } from "lucide-react-native";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
+import Card from "../Card";
 import { Button } from "../ui/Button";
 
 export default function DangerZoneSection({
@@ -8,14 +9,7 @@ export default function DangerZoneSection({
 	onClear: () => void;
 }) {
 	return (
-		<View
-			style={{
-				marginBottom: 24,
-				borderColor: "#dc3545",
-				borderWidth: 1,
-				padding: 16,
-			}}
-		>
+		<Card>
 			<Text
 				style={{
 					fontSize: 18,
@@ -35,6 +29,6 @@ export default function DangerZoneSection({
 				icon={<Trash2 width={16} height={16} />}
 				title="Excluir todos os dados"
 			/>
-		</View>
+		</Card>
 	);
 }
