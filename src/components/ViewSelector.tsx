@@ -1,5 +1,5 @@
 import { Calendar as CalendarIcon } from "lucide-react-native";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { PALETTE } from "../utils/constants";
 import { Button } from "./ui/Button";
 
@@ -19,7 +19,7 @@ export function ViewSelector({ view, setView }: Props) {
 			}}
 		>
 			<View>
-				<Text style={{ fontSize: 20, fontWeight: "600", marginBottom: 8 }}>
+				<Text style={styles.title}>
 					{view === "monthly" ? "Calendário do mês" : "Calendário anual"}
 				</Text>
 			</View>
@@ -49,3 +49,13 @@ export function ViewSelector({ view, setView }: Props) {
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	title: {
+		fontSize: 24,
+		marginBottom: 8,
+		fontWeight: "bold",
+		textAlign: "center",
+		fontFamily: "Montserrat-Bold",
+	},
+});

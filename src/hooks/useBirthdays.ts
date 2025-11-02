@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import type { BirthdayWithAge } from "../types/birthday";
 import {
 	addBirthday,
 	deleteBirthday,
 	getBirthdaysWithDetails,
 	updateBirthday,
-} from "../lib/birthdays";
-import type { BirthdayWithAge } from "../types/birthday";
+} from "../utils/birthdays";
 import { storage } from "../utils/storageAsync";
 
 export function useBirthdays() {

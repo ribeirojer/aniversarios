@@ -3,10 +3,12 @@ import { useRef, useState } from "react";
 import {
 	type GestureResponderEvent,
 	ScrollView,
+	StyleSheet,
 	Text,
 	type TextInput,
 	View,
 } from "react-native";
+import DatePicker from "@/src/components/DatePicker";
 import Layout from "@/src/components/Layout";
 import { ReminderConfig } from "@/src/components/reminder-config";
 import { Button } from "@/src/components/ui/Button";
@@ -92,8 +94,13 @@ const Adicionar = () => {
 
 		router.push("/");
 	};
+
+	const [date, setDate] = useState(new Date(1598051730000));
+
 	return (
 		<Layout>
+			<Text style={styles.title}>Adicionar</Text>
+
 			<ScrollView contentContainerStyle={{ padding: 16 }}>
 				<TextInputField
 					label="Nome"
@@ -104,32 +111,27 @@ const Adicionar = () => {
 					ref={nameRef}
 				/>
 
-				<View
-					style={{
-						flexDirection: "row",
-						justifyContent: "space-between",
-						marginVertical: 16,
-					}}
-				>
-					<TextInputField
-						label="Data (Mês-Dia)"
-						value={formData.date}
-						onChangeText={(text) => setFormData({ ...formData, date: text })}
-						placeholder="MM-DD"
-						style={{ flex: 1, marginRight: 8 }}
-						errorMessage={errors.date}
-						ref={dateRef}
+				<View style={{ padding: 20 }}>
+					<Text style={{ fontSize: 18, fontWeight: "600", marginBottom: 10 }}>
+						Selecionar data de aniversário
+					</Text>
+
+					<DatePicker
+						label="Data de nascimento"
+						value={date}
+						onChange={(selectedDate) => {
+							if (selectedDate) {
+								setDate(selectedDate);
+							}
+						}}
 					/>
-					<TextInputField
-						label="Ano de nascimento"
-						keyboardType="numeric"
-						value={formData.year}
-						onChangeText={(text) => setFormData({ ...formData, year: text })}
-						placeholder="1990"
-						style={{ flex: 1, marginLeft: 8 }}
-						errorMessage={errors.year}
-						ref={yearRef}
-					/>
+
+					{date && (
+						<Text style={{ marginTop: 10 }}>
+							🎂 Data selecionada:{" "}
+							{date.toLocaleDateString("pt-BR", { timeZone: "UTC" })}
+						</Text>
+					)}
 				</View>
 
 				<TextInputField
@@ -181,3 +183,13 @@ const Adicionar = () => {
 };
 
 export default Adicionar;
+
+const styles = StyleSheet.create({
+	title: {
+		fontSize: 24,
+		fontWeight: "bold",
+		marginTop: 16,
+		textAlign: "center",
+		fontFamily: "Montserrat-Bold",
+	},
+});

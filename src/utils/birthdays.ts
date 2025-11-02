@@ -19,7 +19,7 @@ export async function addBirthday(
 	const birthdays = await getBirthdays();
 	const newBirthday: Birthday = {
 		...birthday,
-		id: crypto.randomUUID(),
+		id: uuidv4(),
 		createdAt: new Date().toISOString(),
 		notifyDaysBefore: birthday.notifyDaysBefore || [7, 1, 0],
 	};
@@ -104,5 +104,13 @@ export async function getBirthdaysByMonth(
 	return (await getBirthdaysWithDetails()).filter((b) => {
 		const [m] = b.date.split("-").map(Number);
 		return m === month;
+	});
+}
+
+function uuidv4(): string {
+	return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+		const r = (Math.random() * 16) | 0;
+		const v = c === "x" ? r : (r & 0x3) | 0x8;
+		return v.toString(16);
 	});
 }

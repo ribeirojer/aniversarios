@@ -6,11 +6,12 @@ export interface Birthday {
 	notes?: string;
 	notifyDaysBefore: number[]; // ex: [7, 1, 0] = 7 dias antes, 1 dia antes, no dia
 	createdAt: string;
+	isSoon?: boolean; // próximos 7 dias
 }
 
 export interface BirthdayWithAge extends Birthday {
 	age?: number;
 	daysUntil: number;
 	isToday: boolean;
-	isSoon: boolean; // próximos 7 dias
+	isSoon?: boolean; // próximos 7 dias
 }

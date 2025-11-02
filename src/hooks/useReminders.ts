@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getBirthdaysWithDetails } from "../lib/birthdays";
 import type { BirthdayWithAge } from "../types/birthday";
+import { getBirthdaysWithDetails } from "../utils/birthdays";
 
 interface Reminder {
 	birthday: BirthdayWithAge;

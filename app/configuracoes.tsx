@@ -20,9 +20,8 @@ export default function SettingsPage() {
 
 	return (
 		<Layout>
+			<Text style={styles.title}>Configurações</Text>
 			<View style={{ flex: 1, paddingHorizontal: 16 }}>
-				<Text style={styles.title}>Configurações</Text>
-
 				<NotificationsSection
 					enabled={notificationsEnabled}
 					onToggle={handleNotificationToggle}
@@ -43,7 +42,8 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 24,
 		fontWeight: "bold",
-		marginVertical: 16,
+		marginTop: 16,
+		marginBottom: 12,
 		textAlign: "center",
 		fontFamily: "Montserrat-Bold",
 	},

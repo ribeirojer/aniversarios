@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
+import type { Birthday } from "../types/birthday";
 
+// Configuração do idioma PT-BR
 LocaleConfig.locales["pt-br"] = {
 	monthNames: [
 		"Janeiro",
@@ -45,11 +47,6 @@ LocaleConfig.locales["pt-br"] = {
 };
 LocaleConfig.defaultLocale = "pt-br";
 
-interface Birthday {
-	date: string; // formato "YYYY-MM-DD"
-	name: string;
-}
-
 interface Props {
 	birthdays: Birthday[];
 	onDayClick?: (date: string) => void;
@@ -58,11 +55,16 @@ interface Props {
 export function MonthlyCalendar({ birthdays, onDayClick }: Props) {
 	const [selected, setSelected] = useState("");
 
+	// Data atual
+	const currentYear = new Date().getFullYear();
+
+	// Converte datas no formato "MM-DD" para "YYYY-MM-DD"
 	const markedDates = birthdays.reduce(
 		(acc, b) => {
-			acc[b.date] = {
+			const formattedDate = `${currentYear}-${b.date}`;
+			acc[formattedDate] = {
 				marked: true,
-				dotColor: "#f59e0b",
+				dotColor: b.isSoon ? "#fbbf24" : "#f59e0b", // amarelo se está chegando
 			};
 			return acc;
 		},
@@ -85,8 +87,14 @@ export function MonthlyCalendar({ birthdays, onDayClick }: Props) {
 		};
 	}
 
+	// Filtra aniversários do dia selecionado
+	const selectedBirthdays = birthdays.filter(
+		(b) => `${currentYear}-${b.date}` === selected,
+	);
+
 	return (
 		<View style={styles.container}>
+			<Text>{JSON.stringify(birthdays)}</Text>
 			<Calendar
 				markedDates={markedDates}
 				onDayPress={(day) => {
@@ -103,17 +111,28 @@ export function MonthlyCalendar({ birthdays, onDayClick }: Props) {
 					textDayFontSize: 16,
 				}}
 			/>
-			{selected && (
+
+			{selectedBirthdays.length > 0 && (
 				<View style={styles.details}>
-					<Text style={styles.detailsTitle}>Aniversários:</Text>
-					{birthdays
-						.filter((b) => b.date === selected)
-						.map((b, _i) => (
-							<Text key={`${b.date}-${b.name}`} style={styles.birthdayName}>
-								🎉 {b.name}
+					<Text style={styles.detailsTitle}>🎂 Aniversariantes do dia</Text>
+					{selectedBirthdays.map((b) => (
+						<View key={b.id} style={styles.birthdayCard}>
+							<Text style={styles.birthdayName}>{b.name}</Text>
+							<Text style={styles.birthdayInfo}>
+								Idade: <Text style={styles.highlight}>{b.year} anos</Text>
 							</Text>
-						))}
+							<Text style={styles.birthdayInfo}>
+								Faltam{" "}
+								<Text style={styles.highlight}>{b.notifyDaysBefore}</Text> dias
+							</Text>
+							{b.notes && <Text style={styles.notes}>📝 {b.notes}</Text>}
+						</View>
+					))}
 				</View>
+			)}
+
+			{selectedBirthdays.length === 0 && selected && (
+				<Text style={styles.noBirthday}>Nenhum aniversário neste dia 🎈</Text>
 			)}
 		</View>
 	);
@@ -121,7 +140,24 @@ export function MonthlyCalendar({ birthdays, onDayClick }: Props) {
 
 const styles = StyleSheet.create({
 	container: { flex: 1, padding: 16 },
-	details: { marginTop: 16 },
-	detailsTitle: { fontSize: 18, fontWeight: "bold" },
-	birthdayName: { fontSize: 16, color: "#374151", marginTop: 4 },
+	details: { marginTop: 24 },
+	detailsTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 12 },
+	birthdayCard: {
+		backgroundColor: "#f9fafb",
+		borderRadius: 12,
+		padding: 12,
+		marginBottom: 10,
+		borderWidth: 1,
+		borderColor: "#e5e7eb",
+	},
+	birthdayName: { fontSize: 18, fontWeight: "600", color: "#111827" },
+	birthdayInfo: { fontSize: 15, color: "#374151", marginTop: 4 },
+	highlight: { color: "#2563eb", fontWeight: "600" },
+	notes: { marginTop: 6, color: "#6b7280", fontStyle: "italic" },
+	noBirthday: {
+		marginTop: 24,
+		fontSize: 16,
+		color: "#6b7280",
+		textAlign: "center",
+	},
 });

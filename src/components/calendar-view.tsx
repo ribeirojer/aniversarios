@@ -1,12 +1,15 @@
-import { Cake } from "lucide-react-native";
-import { ScrollView, Text, View } from "react-native";
+import { Cake, Trash } from "lucide-react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useBirthdays } from "../hooks/useBirthdays";
 import type { BirthdayWithAge } from "../types/birthday";
+import Card from "./Card";
 
 interface CalendarViewProps {
 	birthdays: BirthdayWithAge[];
 }
 
 export function CalendarView({ birthdays }: CalendarViewProps) {
+	const { handleDelete } = useBirthdays();
 	const months = [
 		"Janeiro",
 		"Fevereiro",
@@ -33,16 +36,7 @@ export function CalendarView({ birthdays }: CalendarViewProps) {
 	return (
 		<ScrollView contentContainerStyle={{ padding: 16 }}>
 			{birthdaysByMonth.map(({ month, birthdays: monthBirthdays }) => (
-				<View
-					key={month}
-					style={{
-						marginBottom: 16,
-						padding: 16,
-						borderWidth: 1,
-						borderColor: "#ddd",
-						borderRadius: 8,
-					}}
-				>
+				<Card key={month}>
 					<Text style={{ fontWeight: "bold", fontSize: 16, marginBottom: 8 }}>
 						{month}
 					</Text>
@@ -73,12 +67,20 @@ export function CalendarView({ birthdays }: CalendarViewProps) {
 											{day}
 										</Text>
 										<Text style={{ flexShrink: 1 }}>{birthday.name}</Text>
+										<TouchableOpacity onPress={() => handleDelete(birthday.id)}>
+											<Trash
+												width={16}
+												height={16}
+												color="#FF3B30"
+												style={{ marginLeft: 8 }}
+											/>
+										</TouchableOpacity>
 									</View>
 								);
 							})}
 						</View>
 					)}
-				</View>
+				</Card>
 			))}
 		</ScrollView>
 	);
