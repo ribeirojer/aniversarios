@@ -65,7 +65,7 @@ export default function TextInputField({
 				value={value}
 				onChangeText={onChangeText}
 				placeholder={placeholder}
-				placeholderTextColor="#9ca3af"
+				placeholderTextColor={PALETTE.placeholder}
 				multiline={multiline}
 				editable={!disabled}
 				secureTextEntry={secureTextEntry}

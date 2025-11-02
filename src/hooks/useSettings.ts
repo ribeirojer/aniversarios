@@ -1,3 +1,4 @@
+import { decode as atob } from "base-64";
 import * as DocumentPicker from "expo-document-picker";
 import * as FileSystem from "expo-file-system";
 import { useRouter } from "expo-router";
@@ -78,19 +79,27 @@ export function useSettings() {
 		if (result.canceled) return;
 
 		try {
-			const content = await FileSystem.readAsStringAsync(result.assets[0].uri);
-			const data = JSON.parse(content);
-
-			if (Array.isArray(data)) {
-				const merged = [...(await getBirthdays()), ...data];
-				await saveBirthdays(merged);
-				Alert.alert(
-					"Sucesso",
-					`${data.length} aniversários importados com sucesso!`,
+			const asset = result.assets?.[0];
+			if (asset?.base64) {
+				const base64Data = asset.base64.replace(
+					/^data:application\/json;base64,/,
+					"",
 				);
-				router.push("/");
-			} else {
-				Alert.alert("Erro", "Formato de arquivo inválido");
+				const jsonString = atob(base64Data);
+				const jsonData = JSON.parse(jsonString);
+				console.log("✅ JSON carregado:", jsonData);
+
+				if (Array.isArray(jsonData)) {
+					const merged = [...(await getBirthdays()), ...jsonData];
+					await saveBirthdays(merged); // Uncommenting this line to save the merged data
+					Alert.alert(
+						"Sucesso",
+						`${merged.length} aniversários importados com sucesso!`,
+					);
+					router.push("/");
+				} else {
+					Alert.alert("Erro", "Formato de arquivo inválido");
+				}
 			}
 		} catch (_err) {
 			Alert.alert("Erro", "Erro ao importar arquivo");

@@ -1,4 +1,5 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { Trash2 } from "lucide-react-native";
 import { useState } from "react";
 import {
 	Button,
@@ -9,6 +10,7 @@ import {
 	Text,
 	View,
 } from "react-native";
+import { PALETTE } from "../utils/constants";
 
 interface DatePickerProps {
 	label?: string;
@@ -41,17 +43,21 @@ export default function DatePicker({
 		<View style={styles.container}>
 			{label && <Text style={styles.label}>{label}</Text>}
 
-			<Pressable style={styles.input} onPress={() => setShow(true)}>
-				<Text style={styles.inputText}>
-					{value ? formatDateBR(value) : "Selecionar data"}
-				</Text>
-			</Pressable>
-
-			{value && (
-				<Pressable style={styles.clearButton} onPress={() => onChange(null)}>
-					<Text style={styles.clearButtonText}>Remover</Text>
+			<View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
+				<Pressable style={styles.input} onPress={() => setShow(true)}>
+					<Text style={styles.inputText}>
+						{value ? formatDateBR(value) : "Selecionar data"}
+					</Text>
 				</Pressable>
-			)}
+
+				{value && (
+					<Pressable style={styles.clearButton} onPress={() => onChange(null)}>
+						<Text style={styles.clearButtonText}>
+							<Trash2 />
+						</Text>
+					</Pressable>
+				)}
+			</View>
 
 			{show && Platform.OS === "ios" && (
 				<Modal transparent animationType="slide">
@@ -98,16 +104,22 @@ const styles = StyleSheet.create({
 		marginBottom: 6,
 		fontSize: 16,
 		fontWeight: "500",
+		fontFamily: "Montserrat-Medium",
+		color: PALETTE.textPrimary,
 	},
 	input: {
 		paddingVertical: 12,
 		paddingHorizontal: 14,
-		backgroundColor: "#f0f0f0",
+		backgroundColor: PALETTE.surface, //"#f0f0f0",
 		borderRadius: 10,
+		flex: 1,
+		borderColor: PALETTE.border,
+		borderWidth: 1,
 	},
 	inputText: {
 		fontSize: 16,
-		color: "#333",
+		color: PALETTE.placeholder,
+		fontFamily: "Montserrat-Regular",
 	},
 	clearButton: {
 		marginTop: 8,

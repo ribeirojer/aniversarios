@@ -16,11 +16,19 @@ export default function DangerZoneSection({
 					fontWeight: "600",
 					color: "#dc3545",
 					marginBottom: 8,
+					fontFamily: "Montserrat-SemiBold",
 				}}
 			>
 				<Trash2 width={20} height={20} /> Zona de perigo
 			</Text>
-			<Text style={{ fontSize: 14, color: "#6c757d", marginBottom: 8 }}>
+			<Text
+				style={{
+					fontSize: 14,
+					color: "#6c757d",
+					marginBottom: 8,
+					fontFamily: "Montserrat-Regular",
+				}}
+			>
 				Ações irreversíveis. Tenha certeza antes de prosseguir.
 			</Text>
 			<Button

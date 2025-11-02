@@ -8,5 +8,6 @@ export const PALETTE = {
 	textPrimary: "#831843", // Rosa escuro para títulos
 	textSecondary: "#9d174d", // Rosa profundo para textos de apoio
 	border: "#fbcfe8", // Rosa pastel para bordas e divisores
+	placeholder: "#9ca3af", // Cinza azulado para placeholders
 	notification: "#db2777", // Rosa forte para alertas/ações
 };

@@ -12,10 +12,24 @@ export default function ExportSection({
 }) {
 	return (
 		<Card>
-			<Text style={{ fontSize: 18, fontWeight: "600", marginBottom: 8 }}>
+			<Text
+				style={{
+					fontSize: 18,
+					fontWeight: "600",
+					marginBottom: 8,
+					fontFamily: "Montserrat-SemiBold",
+				}}
+			>
 				<Download width={20} height={20} /> Exportar dados
 			</Text>
-			<Text style={{ fontSize: 14, color: "#6c757d", marginBottom: 8 }}>
+			<Text
+				style={{
+					fontSize: 14,
+					color: "#6c757d",
+					marginBottom: 8,
+					fontFamily: "Montserrat-Regular",
+				}}
+			>
 				Faça backup dos seus aniversários
 			</Text>
 			<View style={{ flexDirection: "row", gap: 8 }}>

@@ -66,7 +66,6 @@ export default function BottomTabNavigator() {
 							>
 								{tab.label}
 							</Text>
-							{isActive && <View style={styles.activeIndicator} />}
 						</TouchableOpacity>
 					);
 				})}
@@ -84,8 +83,8 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-around",
 		backgroundColor: "#fff",
-		marginHorizontal: 12,
-		paddingVertical: 10,
+		marginHorizontal: 16,
+		paddingVertical: 12,
 		borderRadius: 20,
 		shadowColor: "#000",
 		shadowOpacity: 0.1,
@@ -106,13 +105,6 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		marginTop: 4,
 		fontWeight: "500",
-	},
-	activeIndicator: {
-		position: "absolute",
-		bottom: -3,
-		width: 24,
-		height: 3,
-		borderRadius: 2,
-		backgroundColor: PALETTE.primary,
+		fontFamily: "Montserrat-Medium",
 	},
 });
