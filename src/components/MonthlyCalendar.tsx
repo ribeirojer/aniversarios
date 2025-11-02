@@ -84,6 +84,9 @@ export function MonthlyCalendar({ birthdays, onDayClick }: Props) {
 					monthTextColor: "#111827",
 					textMonthFontWeight: "bold",
 					textDayFontSize: 16,
+					textMonthFontFamily: "Montserrat-Bold",
+					textDayFontFamily: "Montserrat-Regular",
+					textDayHeaderFontFamily: "Montserrat-SemiBold",
 				}}
 			/>
 

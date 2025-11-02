@@ -123,6 +123,7 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		marginLeft: 4,
 		marginTop: -4,
+		fontFamily: "Montserrat-Normal",
 	},
 	disabled: {
 		opacity: 0.5,

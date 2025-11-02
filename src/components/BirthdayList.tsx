@@ -47,7 +47,12 @@ export function BirthdayList({ birthdays, visibleYear }: Props) {
 
 const styles = StyleSheet.create({
 	details: { marginTop: 24 },
-	detailsTitle: { fontSize: 20, fontWeight: "bold", marginBottom: 12 },
+	detailsTitle: {
+		fontSize: 20,
+		fontWeight: "bold",
+		marginBottom: 12,
+		fontFamily: "Montserrat-Bold",
+	},
 	birthdayCard: {
 		backgroundColor: "#f9fafb",
 		borderRadius: 12,
@@ -56,7 +61,12 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: "#e5e7eb",
 	},
-	birthdayName: { fontSize: 18, fontWeight: "600", color: "#111827" },
+	birthdayName: {
+		fontSize: 18,
+		fontWeight: "600",
+		color: "#111827",
+		fontFamily: "Montserrat-SemiBold",
+	},
 	birthdayInfo: { fontSize: 15, color: "#374151", marginTop: 4 },
 	highlight: { color: "#2563eb", fontWeight: "600" },
 	notes: { marginTop: 6, color: "#6b7280", fontStyle: "italic" },
@@ -65,5 +75,6 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		color: "#6b7280",
 		textAlign: "center",
+		fontFamily: "Montserrat-Regular",
 	},
 });

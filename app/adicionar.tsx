@@ -52,7 +52,9 @@ const Adicionar = () => {
 					}
 				/>
 				{errors.notifyDaysBefore ? (
-					<Text style={{ color: "red" }}>{errors.notifyDaysBefore}</Text>
+					<Text style={{ color: "red", fontFamily: "Montserrat-Normal" }}>
+						{errors.notifyDaysBefore}
+					</Text>
 				) : null}
 
 				<View

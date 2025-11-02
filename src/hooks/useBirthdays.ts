@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Alert } from "react-native";
 import type { BirthdayWithAge } from "../types/birthday";
 import {
 	addBirthday,
@@ -30,24 +31,35 @@ export function useBirthdays() {
 		setBirthdays(await getBirthdaysWithDetails());
 	};
 
-	const handleAdd = (data: Parameters<typeof addBirthday>[0]) => {
-		addBirthday(data);
-		loadBirthdays();
+	const handleAdd = async (data: Parameters<typeof addBirthday>[0]) => {
+		await addBirthday(data);
+		await loadBirthdays();
 	};
 
-	const handleUpdate = (data: Parameters<typeof addBirthday>[0]) => {
+	const handleUpdate = async (data: Parameters<typeof addBirthday>[0]) => {
 		if (editingId) {
-			updateBirthday(editingId, data);
-			loadBirthdays();
+			await updateBirthday(editingId, data);
+			await loadBirthdays();
 			setEditingId(null);
 		}
 	};
 
 	const handleDelete = (id: string) => {
-		if (confirm("Tem certeza que deseja excluir este aniversário?")) {
-			deleteBirthday(id);
-			loadBirthdays();
-		}
+		Alert.alert(
+			"Confirmação",
+			"Tem certeza que deseja excluir este aniversário?",
+			[
+				{ text: "Cancelar", style: "cancel" },
+				{
+					text: "Excluir",
+					style: "destructive",
+					onPress: async () => {
+						await deleteBirthday(id);
+						await loadBirthdays();
+					},
+				},
+			],
+		);
 	};
 
 	const handleEdit = (id: string) => {

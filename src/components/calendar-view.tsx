@@ -1,5 +1,11 @@
 import { Cake, Trash } from "lucide-react-native";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import {
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
 import { useBirthdays } from "../hooks/useBirthdays";
 import type { BirthdayWithAge } from "../types/birthday";
 import Card from "./Card";
@@ -37,13 +43,9 @@ export function CalendarView({ birthdays }: CalendarViewProps) {
 		<ScrollView contentContainerStyle={{ padding: 16 }}>
 			{birthdaysByMonth.map(({ month, birthdays: monthBirthdays }) => (
 				<Card key={month}>
-					<Text style={{ fontWeight: "bold", fontSize: 16, marginBottom: 8 }}>
-						{month}
-					</Text>
+					<Text style={styles.monthTitle}>{month}</Text>
 					{monthBirthdays.length === 0 ? (
-						<Text style={{ fontSize: 14, color: "#888" }}>
-							Nenhum aniversário
-						</Text>
+						<Text style={styles.emptyText}>Nenhum aniversário</Text>
 					) : (
 						<View>
 							{monthBirthdays.map((birthday) => {
@@ -63,10 +65,15 @@ export function CalendarView({ birthdays }: CalendarViewProps) {
 											color="#007AFF"
 											style={{ marginRight: 8 }}
 										/>
-										<Text style={{ fontWeight: "500", marginRight: 8 }}>
-											{day}
+										<Text style={styles.cardText}>{day}</Text>
+										<Text
+											style={{
+												flexShrink: 1,
+												fontFamily: "Montserrat-Regular",
+											}}
+										>
+											{birthday.name}
 										</Text>
-										<Text style={{ flexShrink: 1 }}>{birthday.name}</Text>
 										<TouchableOpacity onPress={() => handleDelete(birthday.id)}>
 											<Trash
 												width={16}
@@ -85,3 +92,23 @@ export function CalendarView({ birthdays }: CalendarViewProps) {
 		</ScrollView>
 	);
 }
+
+const styles = StyleSheet.create({
+	monthTitle: {
+		fontWeight: "bold",
+		fontSize: 16,
+		marginBottom: 8,
+		fontFamily: "Montserrat-Bold",
+	},
+	emptyText: {
+		fontSize: 14,
+		color: "#888",
+		fontFamily: "Montserrat-Regular",
+	},
+	cardText: {
+		fontSize: 16,
+		fontFamily: "Montserrat-Regular",
+		marginRight: 8,
+		fontWeight: "500",
+	},
+});

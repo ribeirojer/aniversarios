@@ -46,11 +46,25 @@ export function ReminderConfig({ reminders, onChange }: ReminderConfigProps) {
 					}}
 				>
 					<Bell width={24} height={24} />
-					<Text style={{ marginLeft: 8, fontWeight: "bold", fontSize: 16 }}>
+					<Text
+						style={{
+							marginLeft: 8,
+							fontWeight: "bold",
+							fontSize: 16,
+							fontFamily: "Montserrat-Bold",
+						}}
+					>
 						Lembretes
 					</Text>
 				</View>
-				<Text style={{ fontSize: 12, color: "#6b7280", marginBottom: 12 }}>
+				<Text
+					style={{
+						fontSize: 12,
+						color: "#6b7280",
+						marginBottom: 12,
+						fontFamily: "Montserrat-Normal",
+					}}
+				>
 					Configure quando você quer ser lembrado sobre este aniversário
 				</Text>
 
@@ -63,7 +77,13 @@ export function ReminderConfig({ reminders, onChange }: ReminderConfigProps) {
 					}}
 				>
 					{reminders.length === 0 ? (
-						<Text style={{ fontSize: 12, color: "#6b7280" }}>
+						<Text
+							style={{
+								fontSize: 12,
+								color: "#6b7280",
+								fontFamily: "Montserrat-Normal",
+							}}
+						>
 							Nenhum lembrete configurado
 						</Text>
 					) : (
@@ -79,7 +99,9 @@ export function ReminderConfig({ reminders, onChange }: ReminderConfigProps) {
 									paddingVertical: 6,
 								}}
 							>
-								<Text style={{ marginRight: 4 }}>
+								<Text
+									style={{ marginRight: 4, fontFamily: "Montserrat-Normal" }}
+								>
 									{days === 0
 										? "No dia"
 										: `${days} ${days === 1 ? "dia" : "dias"} antes`}
@@ -106,7 +128,14 @@ export function ReminderConfig({ reminders, onChange }: ReminderConfigProps) {
 						borderRadius: 8,
 					}}
 				>
-					<Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 12 }}>
+					<Text
+						style={{
+							fontSize: 16,
+							fontWeight: "bold",
+							marginBottom: 12,
+							fontFamily: "Montserrat-Bold",
+						}}
+					>
 						Opções rápidas
 					</Text>
 					<View
