@@ -14,14 +14,14 @@ export async function saveBirthdays(birthdays: Birthday[]): Promise<void> {
 }
 
 export async function addBirthday(
-	birthday: Omit<Birthday, "id" | "createdAt">,
+	birthday: Omit<Birthday, "id" | "createdAt"> & { date: Date | string },
 ): Promise<Birthday> {
 	const birthdays = await getBirthdays();
 	const newBirthday: Birthday = {
 		...birthday,
+		date: birthday.date,
 		id: uuidv4(),
 		createdAt: new Date().toISOString(),
-		notifyDaysBefore: birthday.notifyDaysBefore || [7, 1, 0],
 	};
 	birthdays.push(newBirthday);
 	await saveBirthdays(birthdays);
@@ -46,9 +46,11 @@ export async function deleteBirthday(id: string): Promise<void> {
 	await saveBirthdays(updatedBirthdays);
 }
 
-export function calculateDaysUntil(dateStr: string): number {
+export function calculateDaysUntil(dateISO: string): number {
 	const today = new Date();
-	const [month, day] = dateStr.split("-").map(Number);
+	const date = new Date(dateISO);
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
 
 	const thisYear = new Date(today.getFullYear(), month - 1, day);
 	const nextYear = new Date(today.getFullYear() + 1, month - 1, day);
@@ -60,14 +62,15 @@ export function calculateDaysUntil(dateStr: string): number {
 }
 
 export function calculateAge(
-	dateStr: string,
-	year?: number,
+	dateISO: string,
 ): number | undefined {
-	if (!year) return undefined;
 	const today = new Date();
-	const [month, day] = dateStr.split("-").map(Number);
+	const date = new Date(dateISO);
+	const birthYear = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
 
-	let age = today.getFullYear() - year;
+	let age = today.getFullYear() - birthYear;
 
 	if (
 		today.getMonth() + 1 < month ||
@@ -85,7 +88,7 @@ export async function getBirthdaysWithDetails(): Promise<BirthdayWithAge[]> {
 	return birthdays
 		.map((birthday) => {
 			const daysUntil = calculateDaysUntil(birthday.date);
-			const age = calculateAge(birthday.date, birthday.year);
+			const age = calculateAge(birthday.date);
 
 			return {
 				...birthday,
@@ -102,8 +105,8 @@ export async function getBirthdaysByMonth(
 	month: number,
 ): Promise<BirthdayWithAge[]> {
 	return (await getBirthdaysWithDetails()).filter((b) => {
-		const [m] = b.date.split("-").map(Number);
-		return m === month;
+		const date = new Date(b.date);
+		return date.getMonth() + 1 === month;
 	});
 }
 

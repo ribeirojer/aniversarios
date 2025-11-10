@@ -16,22 +16,6 @@ export function useReminders() {
 		const fetchReminders = async () => {
 			const birthdays = await getBirthdaysWithDetails();
 
-			const upcoming = birthdays
-				.flatMap((birthday) =>
-					birthday.notifyDaysBefore.map((days) => {
-						const reminderDate = birthday.daysUntil - days;
-						return {
-							birthday,
-							days,
-							reminderDate,
-							isActive: reminderDate >= 0 && reminderDate <= 7,
-						};
-					}),
-				)
-				.filter((r) => r.isActive)
-				.sort((a, b) => a.reminderDate - b.reminderDate);
-
-			setReminders(upcoming);
 		};
 
 		fetchReminders();

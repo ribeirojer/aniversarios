@@ -58,10 +58,13 @@ export function MonthlyCalendar({ birthdays, onDayClick }: Props) {
 	// Data atual
 	const currentYear = new Date().getFullYear();
 
-	// Converte datas no formato "MM-DD" para "YYYY-MM-DD"
+	// Converte datas ISO para "YYYY-MM-DD"
 	const markedDates = birthdays.reduce(
 		(acc, b) => {
-			const formattedDate = `${currentYear}-${b.date}`;
+			const dateObj = new Date(b.date);
+			const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+			const day = dateObj.getDate().toString().padStart(2, "0");
+			const formattedDate = `${currentYear}-${month}-${day}`;
 			acc[formattedDate] = {
 				marked: true,
 				dotColor: b.isSoon ? "#fbbf24" : "#f59e0b", // amarelo se está chegando
@@ -88,9 +91,12 @@ export function MonthlyCalendar({ birthdays, onDayClick }: Props) {
 	}
 
 	// Filtra aniversários do dia selecionado
-	const selectedBirthdays = birthdays.filter(
-		(b) => `${currentYear}-${b.date}` === selected,
-	);
+	const selectedBirthdays = birthdays.filter((b) => {
+		const dateObj = new Date(b.date);
+		const month = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+		const day = dateObj.getDate().toString().padStart(2, "0");
+		return `${currentYear}-${month}-${day}` === selected;
+	});
 
 	return (
 		<View style={styles.container}>

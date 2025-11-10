@@ -1,16 +1,18 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
 import DatePicker from "@/src/components/DatePicker";
 import Layout from "@/src/components/Layout";
-import { ReminderConfig } from "@/src/components/reminder-config";
 import { Button } from "@/src/components/ui/Button";
 import TextInputField from "@/src/components/ui/TextInputField";
 import { useAdd } from "@/src/hooks/useAdd";
 import { useBirthdays } from "@/src/hooks/useBirthdays";
+import { useRouter } from "expo-router";
+import { Check } from "lucide-react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 const Adicionar = () => {
+	const router = useRouter();
 	const { editingBirthday, handleAdd } = useBirthdays();
 	const birthday = editingBirthday;
-	const { formData, setFormData, handleSubmit, errors, refs, date, setDate } =
+	const { formData, setFormData, handleSubmit, errors, refs } =
 		useAdd({ birthday, handleAdd });
 
 	return (
@@ -29,10 +31,10 @@ const Adicionar = () => {
 
 				<DatePicker
 					label="Data de nascimento"
-					value={date}
+					value={formData.date}
 					onChange={(selectedDate) => {
 						if (selectedDate) {
-							setDate(selectedDate);
+							setFormData({ ...formData, date: selectedDate });
 						}
 					}}
 				/>
@@ -45,18 +47,6 @@ const Adicionar = () => {
 					multiline
 				/>
 
-				<ReminderConfig
-					reminders={formData.notifyDaysBefore}
-					onChange={(reminders) =>
-						setFormData({ ...formData, notifyDaysBefore: reminders })
-					}
-				/>
-				{errors.notifyDaysBefore ? (
-					<Text style={{ color: "red", fontFamily: "Montserrat-Normal" }}>
-						{errors.notifyDaysBefore}
-					</Text>
-				) : null}
-
 				<View
 					style={{
 						flexDirection: "row",
@@ -68,11 +58,10 @@ const Adicionar = () => {
 						onPress={() => {
 							setFormData({
 								name: "",
-								date: "",
-								year: "",
+								date: new Date().toISOString(),
 								notes: "",
-								notifyDaysBefore: [7, 1, 0],
 							});
+							router.back();
 						}}
 						title="Cancelar"
 						variant="outline"
@@ -80,6 +69,7 @@ const Adicionar = () => {
 					<Button
 						onPress={handleSubmit}
 						title={birthday ? "Atualizar" : "Adicionar"}
+						icon={<Check style={{ width: 16, height: 16 }} />}
 					/>
 				</View>
 			</ScrollView>

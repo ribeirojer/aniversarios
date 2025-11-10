@@ -1,10 +1,10 @@
-import { useRouter } from "expo-router";
 import { CalendarView } from "@/src/components/calendar-view";
 import { EmptyState } from "@/src/components/EmptyState";
 import Layout from "@/src/components/Layout";
 import { MonthlyCalendar } from "@/src/components/MonthlyCalendar";
 import { ViewSelector } from "@/src/components/ViewSelector";
 import { useBirthdays } from "@/src/hooks/useBirthdays";
+import { useRouter } from "expo-router";
 
 export default function Index() {
 	const router = useRouter();
@@ -25,7 +25,6 @@ export default function Index() {
 	return (
 		<Layout>
 			<ViewSelector view={view} setView={setView} />
-
 			{view === "monthly" ? (
 				<MonthlyCalendar birthdays={birthdays} />
 			) : (

@@ -11,11 +11,12 @@ import {
 	View,
 } from "react-native";
 import { PALETTE } from "../utils/constants";
+import { parseLocalDate } from "../utils/utils";
 
 interface DatePickerProps {
 	label?: string;
-	value: Date | null;
-	onChange: (date: Date | null) => void;
+	value: string;
+	onChange: (date: string | null) => void;
 	mode?: "date" | "time";
 }
 
@@ -29,24 +30,19 @@ export default function DatePicker({
 
 	const onChangeDate = (_: unknown, selectedDate?: Date) => {
 		if (Platform.OS === "android") setShow(false);
-		if (selectedDate) onChange(selectedDate);
+		if (selectedDate) onChange(selectedDate.toISOString());
 	};
 
-	const formatDateBR = (date: Date) => {
-		const d = date.getDate().toString().padStart(2, "0");
-		const m = (date.getMonth() + 1).toString().padStart(2, "0");
-		const y = date.getFullYear();
-		return `${d}/${m}/${y}`;
-	};
+	const date = value.includes("T") ? parseLocalDate(value.split("T")[0]) : parseLocalDate(value);
 
 	return (
 		<View style={styles.container}>
 			{label && <Text style={styles.label}>{label}</Text>}
-
+			
 			<View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
 				<Pressable style={styles.input} onPress={() => setShow(true)}>
 					<Text style={styles.inputText}>
-						{value ? formatDateBR(value) : "Selecionar data"}
+						{date.toLocaleDateString("pt-BR")}
 					</Text>
 				</Pressable>
 
@@ -64,11 +60,11 @@ export default function DatePicker({
 					<View style={styles.modalContainer}>
 						<View style={styles.modalContent}>
 							<DateTimePicker
-								value={value || new Date()}
+								value={value ? new Date(value) : new Date()}
 								mode={mode}
 								display="spinner"
 								onChange={(_, selectedDate) => {
-									if (selectedDate) onChange(selectedDate);
+									if (selectedDate) onChange(selectedDate.toISOString());
 								}}
 							/>
 							<View style={styles.modalButtons}>
@@ -86,10 +82,12 @@ export default function DatePicker({
 
 			{show && Platform.OS === "android" && (
 				<DateTimePicker
-					value={value || new Date()}
+					value={value ? new Date(value) : new Date()}
 					mode={mode}
 					display="default"
-					onChange={onChangeDate}
+					onChange={(_, selectedDate) => {
+						if (selectedDate) onChange(selectedDate.toISOString());
+					}}
 				/>
 			)}
 		</View>

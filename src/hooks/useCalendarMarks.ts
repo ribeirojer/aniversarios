@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type { Birthday } from "../types/birthday";
+import { parseLocalDate } from "../utils/utils";
 
 /**
  * Gera o objeto de datas marcadas no calendário, de acordo com o ano visível.
@@ -19,15 +20,20 @@ export function useCalendarMarks(
 				selectedColor?: string;
 			}
 		> = {};
-
+		
 		birthdays.forEach((b) => {
-			const date = `${visibleYear}-${b.date}`; // Ex: "2026-05-12"
+			const dateObj = parseLocalDate(b.date);
+		  		  
+			const monthStr = (dateObj.getMonth() + 1).toString().padStart(2, "0");
+			const dayStr = dateObj.getDate().toString().padStart(2, "0");
+			const date = `${visibleYear}-${monthStr}-${dayStr}`;
+		  
 			marks[date] = {
-				marked: true,
-				dotColor: b.isSoon ? "#fbbf24" : "#f59e0b",
+			  marked: true,
+			  dotColor: "#f59e0b",
 			};
-		});
-
+		  });
+		  
 		if (selected) {
 			marks[selected] = {
 				...marks[selected],

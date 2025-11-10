@@ -13,12 +13,8 @@ export default function ReminderCard({
 	days,
 	reminderDate,
 }: ReminderCardProps) {
-	const [month, day] = birthday.date.split("-");
-	const dateFormatted = new Date(
-		2000,
-		Number(month) - 1,
-		Number(day),
-	).toLocaleDateString("pt-BR", {
+	const dateObj = new Date(birthday.date);
+	const dateFormatted = dateObj.toLocaleDateString("pt-BR", {
 		day: "numeric",
 		month: "long",
 	});

@@ -1,10 +1,10 @@
-import { Cake, Trash } from "lucide-react-native";
+import { Trash } from "lucide-react-native";
 import {
 	ScrollView,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
-	View,
+	View
 } from "react-native";
 import { useBirthdays } from "../hooks/useBirthdays";
 import type { BirthdayWithAge } from "../types/birthday";
@@ -33,8 +33,9 @@ export function CalendarView({ birthdays }: CalendarViewProps) {
 
 	const birthdaysByMonth = months.map((month, index) => {
 		const monthBirthdays = birthdays.filter((b) => {
-			const [m] = b.date.split("-").map(Number);
-			return m === index + 1;
+			const dateObj = new Date(b.date);
+			const [m] = dateObj.getMonth() + 1 + "-" + dateObj.getDate().toString().split("-");
+			return m === (index + 1).toString();
 		});
 		return { month, birthdays: monthBirthdays };
 	});
@@ -49,23 +50,10 @@ export function CalendarView({ birthdays }: CalendarViewProps) {
 					) : (
 						<View>
 							{monthBirthdays.map((birthday) => {
-								const [, day] = birthday.date.split("-");
+								const dateObj = new Date(birthday.date);
+								const [, day] = dateObj.getMonth() + 1 + "-" + dateObj.getDate().toString().split("-");
 								return (
-									<View
-										key={birthday.id}
-										style={{
-											flexDirection: "row",
-											alignItems: "center",
-											marginBottom: 8,
-										}}
-									>
-										<Cake
-											width={16}
-											height={16}
-											color="#007AFF"
-											style={{ marginRight: 8 }}
-										/>
-										<Text style={styles.cardText}>{day}</Text>
+									<View key={birthday.id} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
 										<Text
 											style={{
 												flexShrink: 1,
@@ -89,26 +77,26 @@ export function CalendarView({ birthdays }: CalendarViewProps) {
 					)}
 				</Card>
 			))}
+			<Text>{JSON.stringify(birthdays)}</Text>
 		</ScrollView>
 	);
 }
 
 const styles = StyleSheet.create({
 	monthTitle: {
+		fontSize: 20,
 		fontWeight: "bold",
-		fontSize: 16,
 		marginBottom: 8,
-		fontFamily: "Montserrat-Bold",
+		fontFamily: "Montserrat-SemiBold",
 	},
 	emptyText: {
 		fontSize: 14,
-		color: "#888",
+		color: "#6b7280",
 		fontFamily: "Montserrat-Regular",
 	},
 	cardText: {
 		fontSize: 16,
 		fontFamily: "Montserrat-Regular",
 		marginRight: 8,
-		fontWeight: "500",
 	},
 });

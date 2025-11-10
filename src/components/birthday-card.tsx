@@ -14,12 +14,8 @@ export function BirthdayCard({
 	onEdit,
 	onDelete,
 }: BirthdayCardProps) {
-	const [month, day] = birthday.date.split("-");
-	const dateFormatted = new Date(
-		2000,
-		Number.parseInt(month, 10) - 1,
-		Number.parseInt(day, 10),
-	).toLocaleDateString("pt-BR", {
+	const dateObj = new Date(birthday.date);
+	const dateFormatted = dateObj.toLocaleDateString("pt-BR", {
 		day: "numeric",
 		month: "long",
 	});

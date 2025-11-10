@@ -1,12 +1,9 @@
 export interface Birthday {
 	id: string;
 	name: string;
-	date: string; // formato: MM-DD
-	year?: number; // ano de nascimento (opcional)
+	date: string; // formato ISO: "2025-11-04T03:46:12.386Z"
 	notes?: string;
-	notifyDaysBefore: number[]; // ex: [7, 1, 0] = 7 dias antes, 1 dia antes, no dia
 	createdAt: string;
-	isSoon?: boolean; // próximos 7 dias
 }
 
 export interface BirthdayWithAge extends Birthday {
