@@ -4,7 +4,7 @@ import {
 	StyleSheet,
 	Text,
 	TouchableOpacity,
-	View
+	View,
 } from "react-native";
 import { useBirthdays } from "../hooks/useBirthdays";
 import type { BirthdayWithAge } from "../types/birthday";
@@ -34,7 +34,8 @@ export function CalendarView({ birthdays }: CalendarViewProps) {
 	const birthdaysByMonth = months.map((month, index) => {
 		const monthBirthdays = birthdays.filter((b) => {
 			const dateObj = new Date(b.date);
-			const [m] = dateObj.getMonth() + 1 + "-" + dateObj.getDate().toString().split("-");
+			const [m] =
+				`${dateObj.getMonth() + 1}-${dateObj.getDate().toString().split("-")}`;
 			return m === (index + 1).toString();
 		});
 		return { month, birthdays: monthBirthdays };
@@ -51,9 +52,17 @@ export function CalendarView({ birthdays }: CalendarViewProps) {
 						<View>
 							{monthBirthdays.map((birthday) => {
 								const dateObj = new Date(birthday.date);
-								const [, day] = dateObj.getMonth() + 1 + "-" + dateObj.getDate().toString().split("-");
+								const [, _day] =
+									`${dateObj.getMonth() + 1}-${dateObj.getDate().toString().split("-")}`;
 								return (
-									<View key={birthday.id} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+									<View
+										key={birthday.id}
+										style={{
+											flexDirection: "row",
+											justifyContent: "space-between",
+											alignItems: "center",
+										}}
+									>
 										<Text
 											style={{
 												flexShrink: 1,

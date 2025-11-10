@@ -28,17 +28,19 @@ export default function DatePicker({
 }: DatePickerProps) {
 	const [show, setShow] = useState(false);
 
-	const onChangeDate = (_: unknown, selectedDate?: Date) => {
+	const _onChangeDate = (_: unknown, selectedDate?: Date) => {
 		if (Platform.OS === "android") setShow(false);
 		if (selectedDate) onChange(selectedDate.toISOString());
 	};
 
-	const date = value.includes("T") ? parseLocalDate(value.split("T")[0]) : parseLocalDate(value);
+	const date = value.includes("T")
+		? parseLocalDate(value.split("T")[0])
+		: parseLocalDate(value);
 
 	return (
 		<View style={styles.container}>
 			{label && <Text style={styles.label}>{label}</Text>}
-			
+
 			<View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
 				<Pressable style={styles.input} onPress={() => setShow(true)}>
 					<Text style={styles.inputText}>

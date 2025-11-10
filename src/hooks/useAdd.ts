@@ -14,7 +14,7 @@ type Props = {
 		name: string;
 		date: string;
 		notes?: string;
-	}) => void;
+	}) => Promise<void>;
 };
 
 export const useAdd = ({ birthday, handleAdd }: Props) => {
@@ -23,7 +23,7 @@ export const useAdd = ({ birthday, handleAdd }: Props) => {
 	const date = params.date as string;
 	const [formData, setFormData] = useState({
 		name: birthday?.name || "",
-		date: date ? date : new Date().toISOString(),
+		date: date ? date : new Date().toISOString().split("T")[0],
 		notes: birthday?.notes || "",
 	});
 	const [errors, setErrors] = useState({
@@ -40,7 +40,7 @@ export const useAdd = ({ birthday, handleAdd }: Props) => {
 		date: dateRef,
 	};
 
-	const handleSubmit = (e: GestureResponderEvent) => {
+	const handleSubmit = async (e: GestureResponderEvent) => {
 		e.preventDefault();
 
 		setErrors((_prev) => ({
@@ -62,13 +62,21 @@ export const useAdd = ({ birthday, handleAdd }: Props) => {
 			return;
 		}
 
-		handleAdd({
-			name: formData.name,
-			date: formData.date,
-			notes: formData.notes || undefined,
-		});
+		try {
+			await handleAdd({
+				name: formData.name,
+				date: formData.date,
+				notes: formData.notes || undefined,
+			});
 
-		router.push("/");
+			router.push("/");
+		} catch (error) {
+			console.error("Error adding birthday:", error);
+			setErrors((prev) => ({
+				...prev,
+				general: "Erro ao adicionar aniversário.",
+			}));
+		}
 	};
 
 	return {

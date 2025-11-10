@@ -7,28 +7,24 @@ import {
 	getBirthdaysWithDetails,
 	updateBirthday,
 } from "../utils/birthdays";
-import { storage } from "../utils/storageAsync";
 
 export function useBirthdays() {
 	const [birthdays, setBirthdays] = useState<BirthdayWithAge[]>([]);
 	const [editingId, setEditingId] = useState<string | null>(null);
-	const [daysFilter, setDaysFilter] = useState<7 | 30>(7);
-	const [showOnboarding, setShowOnboarding] = useState(false);
 	const [view, setView] = useState<"calendar" | "monthly">("monthly");
 
-	useEffect(() => {
-		const loadData = async () => {
-			const birthdays = await getBirthdaysWithDetails();
-			setBirthdays(birthdays);
-			const onboardingCompleted = await storage.get("onboarding_completed");
-			if (!onboardingCompleted) setShowOnboarding(true);
-		};
+	const loadData = async () => {
+		const birthdays = await getBirthdaysWithDetails();
+		setBirthdays(birthdays);
+	};
 
+	useEffect(() => {
 		loadData();
 	}, []);
 
 	const loadBirthdays = async () => {
-		setBirthdays(await getBirthdaysWithDetails());
+		const birthdays = await getBirthdaysWithDetails();
+		setBirthdays(birthdays);
 	};
 
 	const handleAdd = async (data: Parameters<typeof addBirthday>[0]) => {
@@ -70,8 +66,6 @@ export function useBirthdays() {
 		? birthdays.find((b) => b.id === editingId)
 		: undefined;
 
-	const upcomingBirthdays = birthdays.filter((b) => b.daysUntil <= daysFilter);
-
 	return {
 		birthdays,
 		view,
@@ -81,10 +75,5 @@ export function useBirthdays() {
 		handleUpdate,
 		handleDelete,
 		handleEdit,
-		daysFilter,
-		setDaysFilter,
-		upcomingBirthdays,
-		showOnboarding,
-		setShowOnboarding,
 	};
 }

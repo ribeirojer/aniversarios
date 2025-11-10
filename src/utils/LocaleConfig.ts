@@ -1,4 +1,4 @@
-export const LocaleConfig =  {
+export const LocaleConfig = {
 	monthNames: [
 		"Janeiro",
 		"Fevereiro",

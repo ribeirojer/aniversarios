@@ -61,9 +61,7 @@ export function calculateDaysUntil(dateISO: string): number {
 	return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
 
-export function calculateAge(
-	dateISO: string,
-): number | undefined {
+export function calculateAge(dateISO: string): number | undefined {
 	const today = new Date();
 	const date = new Date(dateISO);
 	const birthYear = date.getFullYear();

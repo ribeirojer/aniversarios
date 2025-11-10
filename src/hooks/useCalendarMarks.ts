@@ -20,20 +20,20 @@ export function useCalendarMarks(
 				selectedColor?: string;
 			}
 		> = {};
-		
+
 		birthdays.forEach((b) => {
 			const dateObj = parseLocalDate(b.date);
-		  		  
+
 			const monthStr = (dateObj.getMonth() + 1).toString().padStart(2, "0");
 			const dayStr = dateObj.getDate().toString().padStart(2, "0");
 			const date = `${visibleYear}-${monthStr}-${dayStr}`;
-		  
+
 			marks[date] = {
-			  marked: true,
-			  dotColor: "#f59e0b",
+				marked: true,
+				dotColor: "#f59e0b",
 			};
-		  });
-		  
+		});
+
 		if (selected) {
 			marks[selected] = {
 				...marks[selected],

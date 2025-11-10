@@ -6,7 +6,6 @@ interface ReminderListProps {
 	reminders: {
 		birthday: BirthdayWithAge;
 		days: number;
-		reminderDate: number;
 	}[];
 }
 
@@ -18,7 +17,6 @@ export default function ReminderList({ reminders }: ReminderListProps) {
 					key={`${reminder.birthday.id}-${reminder.days}-${index}`}
 					birthday={reminder.birthday}
 					days={reminder.days}
-					reminderDate={reminder.reminderDate}
 				/>
 			))}
 		</View>

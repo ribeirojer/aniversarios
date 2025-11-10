@@ -1,19 +1,21 @@
+import { useRouter } from "expo-router";
+import { Check } from "lucide-react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import DatePicker from "@/src/components/DatePicker";
 import Layout from "@/src/components/Layout";
 import { Button } from "@/src/components/ui/Button";
 import TextInputField from "@/src/components/ui/TextInputField";
 import { useAdd } from "@/src/hooks/useAdd";
 import { useBirthdays } from "@/src/hooks/useBirthdays";
-import { useRouter } from "expo-router";
-import { Check } from "lucide-react-native";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 const Adicionar = () => {
 	const router = useRouter();
 	const { editingBirthday, handleAdd } = useBirthdays();
 	const birthday = editingBirthday;
-	const { formData, setFormData, handleSubmit, errors, refs } =
-		useAdd({ birthday, handleAdd });
+	const { formData, setFormData, handleSubmit, errors, refs } = useAdd({
+		birthday,
+		handleAdd,
+	});
 
 	return (
 		<Layout>
